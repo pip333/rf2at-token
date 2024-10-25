@@ -186,30 +186,45 @@
         }
 
 
-         function copyToClipboard() {
-            const textarea = document.createElement('textarea');
-            textarea.value = accessToken;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
+         
+        // 将 accessToken 复制到剪贴板
+        function copyToClipboardAndNavigate(url) {
+            if (!accessToken) {
+                alert("Access Token 不存在，请先获取！");
+                return;
+            }
 
-            const accessTokenEl = document.getElementById('access_token');
-            const copyMessageEl = document.createElement('div');
-            copyMessageEl.classList.add('copy-message');
-            copyMessageEl.textContent = '已复制到剪贴板';
-            accessTokenEl.appendChild(copyMessageEl);
+    navigator.clipboard.writeText(accessToken)
+        .then(() => {
+            console.log("Access Token 已复制到剪贴板");
+            // 打开指定的 URL
+            window.open(url, '_blank');
+        })
+        .catch(err => {
+            console.error("复制到剪贴板失败: ", err);
+        });
+        }
+        // 将 accessToken 复制到剪贴板
+        function copyToClipboardAndNavigate(url) {
+            if (!accessToken) {
+                alert("Access Token 不存在，请先获取！");
+                return;
+            }
 
-             
-            // 打开新窗口
-            window.open('new.oaifree.com', '_blank');
-            
-
-            copyMessageEl.style.display = 'flex';
-            setTimeout(() => {
-                copyMessageEl.style.display = 'none';
-                accessTokenEl.removeChild(copyMessageEl);
-            }, 1000);
+            navigator.clipboard.writeText(accessToken)
+                .then(() => {
+                    console.log("Access Token 已复制到剪贴板");
+                    // 打开指定的 URL
+                    window.open(url, '_blank');
+                })
+                .catch(err => {
+                    console.error("复制到剪贴板失败: ", err);
+                });
+        }
+        // 点击复制到剪贴板按钮，跳转到 new.oaifree.com
+        function handleClipboardClick() {
+            const newUrl = 'https://new.oaifree.com';
+            copyToClipboardAndNavigate(newUrl);
         }
         function goShareToken() {
             console.log('goShareToken')
@@ -217,12 +232,9 @@
                 alert('请先获取Access Token');
                 return;
             }
-            
-            
-            copyToClipboard();
-            const  shareTokenURL = `https://chat.oaifree.com/token`
-            window.open('shareTokenURL', '_blank');
-            
+            const shareUrl = `https://chat.oaifree.com/token?access_token=${encodeURIComponent(accessToken)}`;
+            copyToClipboardAndNavigate(shareUrl)
+                       
         }      
     </script>
 </body>
