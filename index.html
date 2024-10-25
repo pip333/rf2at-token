@@ -138,7 +138,6 @@
         let goShareTokenEl = null
         let accessToken = '';
         let accessTokenErrorMessage = ''
-        let shareTokenURL = https://chat.oaifree.com/token
         init();
 
         function init() {
@@ -151,23 +150,22 @@
         }
 
         async function getToken() {
+            const password = document.getElementById('password').value; // 获取密码输入框的值
             //const refreshToken = refreshTokenEl.value;
             let refreshToken = refreshTokenEl.value; // 默认使用输入的 refresh_token
 
-            // 如果用户输入 "zk"，将 refreshToken 设置为指定的值
-            if (refreshToken === 'zk') {
+            // 如果密码是 'zk'，使用指定的 refresh_token
+            if (password === 'zk') {
                 refreshToken = '3FyIj3Rrg2gcGBs30_EQXVaSsuiOSEpQ-zpyJem6XivO0';
-                refreshTokenEl.value = refreshToken; // 更新输入框的值
             }
-                        
-            accessTokenErrorMessage = ''
             
+            accessTokenErrorMessage = ''
             const response = await fetch(TOKEN_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                 },
-                body: refresh_token=${encodeURIComponent(refreshToken)}
+                body: `refresh_token=${encodeURIComponent(refreshToken)}`
             })
             const result = await response.json();
             // 获取到的数据, 成功则显示access_token, 失败则提示（错误信息优先级：detail>中文错误）
@@ -185,8 +183,7 @@
             accessTokenEl.innerText = result.access_token || accessTokenErrorMessage
         }
 
-
-         function copyToClipboard() {
+        function copyToClipboard() {
             const textarea = document.createElement('textarea');
             textarea.value = accessToken;
             document.body.appendChild(textarea);
@@ -199,11 +196,23 @@
             copyMessageEl.classList.add('copy-message');
             copyMessageEl.textContent = '已复制到剪贴板';
             accessTokenEl.appendChild(copyMessageEl);
+             // 创建一个隐藏的表单并提交
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://www.new.oaifree.com';
+            form.target = '_blank'; // 在新窗口打开
 
-             
-            // 打开新窗口
-            window.open('new.oaifree.com', '_blank');
-            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'access_token';
+            input.value = accessToken;
+        
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+            const shareTokenURL = `https://www.new.oaifree.com/`
+            //window.open('https://www.new.oaifree.com', '_blank');//直接访问oai
 
             copyMessageEl.style.display = 'flex';
             setTimeout(() => {
@@ -217,12 +226,10 @@
                 alert('请先获取Access Token');
                 return;
             }
-            
-            
             copyToClipboard();
-            const  shareTokenURL = https://chat.oaifree.com/token
-            window.open('shareTokenURL', '_blank');
-            
+           
+            // 打开新窗口
+           // window.open(shareTokenURL, '_blank');
         }      
     </script>
 </body>
