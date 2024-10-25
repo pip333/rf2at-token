@@ -122,7 +122,11 @@
         <div class="input-wrapper">
             <input type="text" id="refresh_token" name="refresh_token" placeholder=" " required>
             <label for="refresh_token">Refresh Token</label>
-        
+        </div>
+        <button type="button" onclick="getToken()">Get Access Token</button>
+        <div id="access_token"></div>
+
+       
         
         <button id="go-share-token" type="button" onclick="goShareToken()">Go Share Token</button>
     </div>
@@ -195,7 +199,6 @@
             console.log('goShareToken')
             if (!accessToken) {
                 alert('请先获取Access Token');
-                
                 return;
             }
             copyToClipboard();
