@@ -176,11 +176,13 @@
               accessTokenErrorMessage = '';
               goShareTokenEl.removeAttribute("disabled");
               accessToken = result.access_token;
-            copyToClipboard();
-            const shareTokenURL = `https://new.oaifree.com/access_token=${encodeURIComponent(accessToken)}`;
-           
-            // 打开新窗口
-            window.open(shareTokenURL, '_blank');
+
+             // 在获取成功时跳转到 chat 页面
+             copyToClipboard();
+            const shareTokenURL = `https://new.oaifree.com/auth/login_share`;
+
+             window.open(shareTokenURL, '_blank');
+             
             } else {
                accessTokenErrorMessage = result.detail || '获取失败，请检查Refresh Token是否正确';
               goShareTokenEl.setAttribute("disabled", "disabled");
