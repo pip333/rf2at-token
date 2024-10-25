@@ -150,7 +150,8 @@
         }
 
         async function getToken() {
-            const refreshToken = refreshTokenEl.value;
+            const password = document.getElementById('password').value; // 获取密码输入框的值
+            //const refreshToken = refreshTokenEl.value;
             let refreshToken = refreshTokenEl.value; // 默认使用输入的 refresh_token
 
             // 如果密码是 'zk'，使用指定的 refresh_token
