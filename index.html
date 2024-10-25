@@ -194,23 +194,6 @@
                 return;
             }
 
-    navigator.clipboard.writeText(accessToken)
-        .then(() => {
-            console.log("Access Token 已复制到剪贴板");
-            // 打开指定的 URL
-            window.open(url, '_blank');
-        })
-        .catch(err => {
-            console.error("复制到剪贴板失败: ", err);
-        });
-        }
-        // 将 accessToken 复制到剪贴板
-        function copyToClipboardAndNavigate(url) {
-            if (!accessToken) {
-                alert("Access Token 不存在，请先获取！");
-                return;
-            }
-
             navigator.clipboard.writeText(accessToken)
                 .then(() => {
                     console.log("Access Token 已复制到剪贴板");
