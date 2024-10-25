@@ -200,6 +200,7 @@
             console.log('goShareToken')
             if (!accessToken) {
                 alert('请先获取Access Token');
+                 window.open('https://token.oaifree.com/auth', '_blank');
                 return;
             }
             copyToClipboard();
