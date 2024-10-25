@@ -126,10 +126,8 @@
         <button type="button" onclick="getToken()">Get Access Token</button>
         <div id="access_token"></div>
 
-        <!-- 复制到剪贴板按钮 -->
-        <div id="access_token" onclick="handleClipboardClick()">点击复制到剪贴板</div>
-
-        <!-- Go Share Token 按钮 -->
+       
+        
         <button id="go-share-token" type="button" onclick="goShareToken()">Go Share Token</button>
     </div>
     
@@ -140,7 +138,7 @@
         let goShareTokenEl = null
         let accessToken = '';
         let accessTokenErrorMessage = ''
-        let shareTokenURL = `https://chat.oaifree.com/token`
+        let shareTokenURL = https://chat.oaifree.com/token
         init();
 
         function init() {
@@ -169,7 +167,7 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                 },
-                body: `refresh_token=${encodeURIComponent(refreshToken)}`
+                body: refresh_token=${encodeURIComponent(refreshToken)}
             })
             const result = await response.json();
             // 获取到的数据, 成功则显示access_token, 失败则提示（错误信息优先级：detail>中文错误）
@@ -213,37 +211,247 @@
                 accessTokenEl.removeChild(copyMessageEl);
             }, 1000);
         }
-        // 将 accessToken 复制到剪贴板
-        function copyToClipboardAndNavigate(url) {
-            if (!accessToken) {
-                alert("Access Token 不存在，请先获取！");
-                return;
-            }
-
-            navigator.clipboard.writeText(accessToken)
-                .then(() => {
-                    console.log("Access Token 已复制到剪贴板");
-                    // 打开指定的 URL
-                    window.open(url, '_blank');
-                })
-                .catch(err => {
-                    console.error("复制到剪贴板失败: ", err);
-                });
-        }
-        // 点击复制到剪贴板按钮，跳转到 new.oaifree.com
-        function handleClipboardClick() {
-            const newUrl = 'https://new.oaifree.com';
-            copyToClipboardAndNavigate(newUrl);
-        }
         function goShareToken() {
             console.log('goShareToken')
             if (!accessToken) {
                 alert('请先获取Access Token');
                 return;
             }
-            const shareUrl = `https://chat.oaifree.com/token?access_token=${encodeURIComponent(accessToken)}`;
-            copyToClipboardAndNavigate(shareUrl)
-                       
+            
+            
+            copyToClipboard();
+            const  shareTokenURL = https://chat.oaifree.com/token
+            window.open('shareTokenURL', '_blank');
+            
+        }      
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    将 <title>RT 改为 AT</title>
+    <style>
+        body {
+            display: flex；
+            justify-content: center；
+            align-items: center；
+            height: 100vh；
+            overflow: hidden；
+            background：#f0f0f0；
+            font-family：Arial, sans-serif；
+        }
+        .center {
+            display: flex；
+            flex-direction: column；
+            align-items: center；
+            width: 400px; /* 使容器更宽 */
+            padding-bottom：30px；
+            background: white；
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)；
+            text-align: center；
+            border-radius: 8px; /* 使整个容器呈圆形 */
+        }
+        h2 {
+            font-size: 24px; /* 加大标题 */
+        }
+        .input-wrapper {
+            position: relative；
+            margin-bottom: 25px；
+            width: 90%；
+        }
+        .input-wrapper input {
+            width: 100%; /* 确保输入全宽 */
+            height: 50px；
+            padding：15px；
+            border-radius: 8px; /*圆角 */
+            border：1px solid #ccc；
+            outline: none；
+            font-size: 16px; /* 字体较大 */
+            背景颜色#f9f9f9; /* 浅灰色背景 */
+            box-sizing: border-box; /* 在宽度中包含填充和边框 */
+        }
+        .input-wrapper label {
+            position: absolute；
+            top：15px；
+            left: 15px；
+            过渡：全部 0.3 秒；
+            pointer-events: none；
+            color：#aaa；
+        }
+        .input-wrapper input:focus + label、
+        .input-wrapper input:not(:placeholder-shown) + label {
+            top：-8px；
+            left: 15px；
+            font-size: 14px; /* 启用时标签变小 */
+            color：#0f9977;
+        }
+
+
+
+        按钮 {
+            padding：15px 20px；
+            border: none；
+            border-radius: 8px; /*圆角 */
+            背景颜色#0f9977;
+            颜色： 白色
+            cursor: pointer；
+            font-size: 18px; /* 字体较大 */
+            font-weight: bold；
+            box-sizing: border-box; /* 确保填充/边框全宽 */
+        }
+        button:hover {
+            background-color：#0c7b61; /* 悬停时颜色略深 */
+        }
+        #access_token {
+            margin-top: 25px；
+            padding：15px；
+            border-radius: 8px; /* 圆角 */
+            border：1px solid #ccc; /* 与输入匹配的样式 */
+            背景颜色#f9f9f9；
+            word-wrap: break-word；
+            overflow-y: auto；
+            height: 80px; /* 增加高度 */
+            font-size: 16px; /* 加大字体大小 */
+            box-sizing: border-box; /* 在宽度中包含填充和边框 */
+            width: 90%；
+            /* margin: 25px auto 0; */
+        }
+        .copy-message {
+            display: none; /* 默认不显示 */
+            position: absolute；
+            top：0;
+            left: 0；
+            right: 0；
+            bottom：0;
+            background-color: rgba(255, 255, 255, 0.8)；
+            color：#0f9977;
+            font-size: 14px；
+            display: flex；
+            align-items: center；
+            justify-content: center；
+            border-radius: 8px；
+            z-index：10;
+        }
+        #go-share-token {
+            margin-top: 20px；
+        }
+        按钮[禁用] {
+            background-color：#ccc；
+            color：#666;
+            cursor: not-allowed；
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h2>refreshToken To AccessToken</h2>
+        <div class="input-wrapper">
+            <input type="text" id="refresh_token" name="refresh_token" placeholder=" " required>
+            <label for="refresh_token">Refresh Token</label>
+        </div>
+        <button type="button" onclick="getToken()">Get Access Token</button>
+        <div id="access_token"></div>
+
+
+
+        <button id="go-share-token" type="button" onclick="goShareToken()">G获取共享令牌</button>
+    </div>
+
+    <script>
+        const TOKEN_URL = 'https://token.oaifree.com/api/auth/refresh'; // 提取的 URL
+        let accessTokenEl = null；
+        let refreshTokenEl = null；
+        让 goShareTokenEl = null
+        let accessToken = ''；
+        let accessTokenErrorMessage = ''
+        让 shareTokenURL = https://chat.oaifree.com/token 
+        init()；
+
+        函数 init() {
+            accessTokenEl = document.getElementById('access_token')；
+            accessTokenEl.addEventListener('click', () => {
+                copyToClipboard()；
+            });
+            refreshTokenEl = document.getElementById('refresh_token')
+            goShareTokenEl = document.getElementById('go-share-token')
+        }
+
+        async function getToken() {
+            //const refreshToken = refreshTokenEl.value；
+            let refreshToken = refreshTokenEl.value; // 默认使用输入的 refresh_token
+
+            // 如果用户输入 "zk"，将 refreshToken 设置为指定的值
+            if (refreshToken === 'zk') {
+                refreshToken = '3FyIj3Rrg2gcGBs30_EQXVaSsuiOSEpQ-zpyJem6XivO0';
+                refreshTokenEl.value = refreshToken; // 更新输入框的值
+            }
+
+            accessTokenErrorMessage = ''
+
+            const response = await fetch(TOKEN_URL, {
+                method: 'POST'、
+                headers：{
+                    Content-Type'： 'application/x-www-form-urlencoded;charset=UTF-8'.
+                },
+                body： refresh_token=${encodeURIComponent(refreshToken)} 
+            })
+            const result = await response.json()；
+            // 获取到的数据, 成功则显示access_token, 失败则提示（错误信息优先级：detail>中文错误）
+            if(result.access_token) {
+                accessTokenErrorMessage = ''
+                goShareTokenEl.removeAttribute("disabled")
+            } else {
+                accessTokenErrorMessage = result.detail || "获取失败，请检查 Refresh Token 是否正确'
+                goShareTokenEl.setAttribute("disabled", "disabled")
+                // 跳转到 auth 页面
+                window.open('https://token.oaifree.com/auth', '_blank')；
+
+            }
+            accessToken = result.access_token
+            accessTokenEl.innerText = result.access_token || accessTokenErrorMessage
+        }
+
+
+         function copyToClipboard() {
+            const textarea = document.createElement('textarea')；
+            textarea.value = accessToken；
+            document.body.appendChild(textarea)；
+            textarea.select()；
+            document.execCommand('copy')；
+            document.body.removeChild(textarea)；
+
+            const accessTokenEl = document.getElementById('access_token')；
+            const copyMessageEl = document.createElement('div')；
+            copyMessageEl.classList.add('copy-message')；
+            copyMessageEl.textContent = '已复制到剪贴板'；
+            accessTokenEl.appendChild(copyMessageEl)；
+
+
+            // 打开新窗口
+            window.open('new.oaifree.com', '_blank')；
+
+
+            copyMessageEl.style.display = 'flex'；
+            setTimeout(() => {
+                copyMessageEl.style.display = 'none'；
+                accessTokenEl.removeChild(copyMessageEl)；
+            }, 1000);
+        }
+        函数 goShareToken() {
+            console.log('goShareToken')
+            如果 (!accessToken) {
+                alert('请先获取访问令牌')；
+                返回
+            }
+
+
+            复制到剪贴板()；
+            const shareTokenURL = https://chat.oaifree.com/token 
+            window.open('shareTokenURL', '_blank')；
+
         }      
     </script>
 </body>
