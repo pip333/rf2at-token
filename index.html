@@ -138,6 +138,7 @@
         let goShareTokenEl = null
         let accessToken = '';
         let accessTokenErrorMessage = ''
+        let shareTokenURL = `https://chat.oaifree.com/token`
         init();
 
         function init() {
@@ -160,7 +161,7 @@
             }
                         
             accessTokenErrorMessage = ''
-            const shareTokenURL = `https://new.oaifree.com/`//直接点剪贴板访问new url
+            
             const response = await fetch(TOKEN_URL, {
                 method: 'POST',
                 headers: {
