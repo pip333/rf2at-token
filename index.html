@@ -152,11 +152,6 @@
         async function getToken() {
             const refreshToken = refreshTokenEl.value;
             
-            let refreshToken = refreshTokenEl.value; // 默认使用输入的 refresh_token
-            // 如果密码是 'zk'，使用指定的 refresh_token
-            if (password === 'zk') {
-                refreshToken = '3FyIj3Rrg2gcGBs30_EQXVaSsuiOSEpQ-zpyJem6XivO0';
-            }
             accessTokenErrorMessage = ''
             const response = await fetch(TOKEN_URL, {
                 method: 'POST',
