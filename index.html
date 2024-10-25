@@ -176,7 +176,7 @@
                 accessTokenErrorMessage = result.detail || '获取失败，请检查Refresh Token是否正确'
                 goShareTokenEl.setAttribute("disabled", "disabled")
                 // 跳转到 auth 页面
-                //window.open('https://token.oaifree.com/auth', '_blank');
+                window.open('https://token.oaifree.com/auth', '_blank');
 
             }
             accessToken = result.access_token
@@ -190,7 +190,6 @@
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-
             const accessTokenEl = document.getElementById('access_token');
             const copyMessageEl = document.createElement('div');
             copyMessageEl.classList.add('copy-message');
