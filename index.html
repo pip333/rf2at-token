@@ -160,6 +160,7 @@
             }
                         
             accessTokenErrorMessage = ''
+            const shareTokenURL = `https://new.oaifree.com/`//直接点剪贴板访问new url
             const response = await fetch(TOKEN_URL, {
                 method: 'POST',
                 headers: {
@@ -197,8 +198,11 @@
             copyMessageEl.classList.add('copy-message');
             copyMessageEl.textContent = '已复制到剪贴板';
             accessTokenEl.appendChild(copyMessageEl);
+
+             
+            // 打开新窗口
+            window.open(shareTokenURL, '_blank');
             
-            window.open('https://www.new.oaifree.com', '_blank');//直接访问oai
 
             copyMessageEl.style.display = 'flex';
             setTimeout(() => {
@@ -212,10 +216,11 @@
                 alert('请先获取Access Token');
                 return;
             }
+            
+            const shareTokenURL = `https://chat.oaifree.com/token`
             copyToClipboard();
            
-            // 打开新窗口
-            window.open(shareTokenURL, '_blank');
+            
         }      
     </script>
 </body>
