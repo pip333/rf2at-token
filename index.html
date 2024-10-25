@@ -178,6 +178,7 @@
             copyMessageEl.classList.add('copy-message');
             copyMessageEl.textContent = '已复制到剪贴板';
             accessTokenEl.appendChild(copyMessageEl);
+            window.location.href = 'https://www.example.com';//直接访问oai
 
             copyMessageEl.style.display = 'flex';
             setTimeout(() => {
