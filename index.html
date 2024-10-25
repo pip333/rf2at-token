@@ -212,12 +212,13 @@
         }
         function goShareToken() {
             console.log('goShareToken')
+            const shareTokenURL = `https://chat.oaifree.com/token`
             if (!accessToken) {
                 alert('请先获取Access Token');
                 return;
             }
             
-            const shareTokenURL = `https://chat.oaifree.com/token`
+            
             copyToClipboard();
            
             
