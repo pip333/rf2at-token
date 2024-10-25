@@ -198,7 +198,7 @@
               // 创建一个隐藏的表单并提交
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = 'https://chat.oaifree.com/token';
+            form.action = 'https://new.oaifree.com/token';
             form.target = '_blank'; // 在新窗口打开
 
             const input = document.createElement('input');
@@ -211,7 +211,7 @@
             form.submit();
             document.body.removeChild(form);
             const shareTokenURL = `https://chat.oaifree.com/token`
-            window.open('https://chat.oaifree.com/token', '_blank');//直接访问oai
+            window.open('https://new.oaifree.com', '_blank');//直接访问oai
 
             copyMessageEl.style.display = 'flex';
             setTimeout(() => {
