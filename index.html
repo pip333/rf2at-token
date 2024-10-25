@@ -163,7 +163,7 @@
             } else {
                 accessTokenErrorMessage = result.detail || '获取失败，请检查Refresh Token是否正确'
                 goShareTokenEl.setAttribute("disabled", "disabled")
-                window.open('https://token.oaifree.com/auth', '_blank')
+
             }
             accessToken = result.access_token
             accessTokenEl.innerText = result.access_token || accessTokenErrorMessage
