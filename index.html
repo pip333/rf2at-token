@@ -59,8 +59,8 @@
             font-size: 14px; /* Smaller label when active */
             color: #0f9977;
         }
-        
-       
+
+
 
         button {
             padding: 15px 20px;
@@ -126,11 +126,11 @@
         <button type="button" onclick="getToken()">Get Access Token</button>
         <div id="access_token"></div>
 
-       
-        
+
+
         <button id="go-share-token" type="button" onclick="goShareToken()">Go Share Token</button>
     </div>
-    
+
     <script>
         const TOKEN_URL = 'https://token.oaifree.com/api/auth/refresh'; // Extracted URL
         let accessTokenEl = null;
@@ -138,7 +138,8 @@
         let goShareTokenEl = null
         let accessToken = '';
         let accessTokenErrorMessage = ''
-        let shareTokenURL = https://chat.oaifree.com/token
+        let shareTokenURL = `https://new.oaifree.com/`
+        let shareTokenURL = `https://chat.oaifree.com/token`
         init();
 
         function init() {
@@ -159,15 +160,15 @@
                 refreshToken = '3FyIj3Rrg2gcGBs30_EQXVaSsuiOSEpQ-zpyJem6XivO0';
                 refreshTokenEl.value = refreshToken; // 更新输入框的值
             }
-                        
+
             accessTokenErrorMessage = ''
-            
+
             const response = await fetch(TOKEN_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                 },
-                body: refresh_token=${encodeURIComponent(refreshToken)}
+                body: `refresh_token=${encodeURIComponent(refreshToken)}`
             })
             const result = await response.json();
             // 获取到的数据, 成功则显示access_token, 失败则提示（错误信息优先级：detail>中文错误）
@@ -200,10 +201,11 @@
             copyMessageEl.textContent = '已复制到剪贴板';
             accessTokenEl.appendChild(copyMessageEl);
 
-             
+
             // 打开新窗口
+            window.open(shareTokenURL, '_blank');
             window.open('new.oaifree.com', '_blank');
-            
+
 
             copyMessageEl.style.display = 'flex';
             setTimeout(() => {
@@ -217,12 +219,12 @@
                 alert('请先获取Access Token');
                 return;
             }
-            
-            
+
+
             copyToClipboard();
-            const  shareTokenURL = https://chat.oaifree.com/token
+            const  shareTokenURL = `https://chat.oaifree.com/token`
             window.open('shareTokenURL', '_blank');
-            
+
         }      
     </script>
 </body>
