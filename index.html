@@ -183,40 +183,22 @@
             accessTokenEl.innerText = result.access_token || accessTokenErrorMessage
         }
 
-        function copyToClipboard() {
+
+         function copyToClipboard() {
             const textarea = document.createElement('textarea');
             textarea.value = accessToken;
             document.body.appendChild(textarea);
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
+
             const accessTokenEl = document.getElementById('access_token');
             const copyMessageEl = document.createElement('div');
             copyMessageEl.classList.add('copy-message');
             copyMessageEl.textContent = '已复制到剪贴板';
             accessTokenEl.appendChild(copyMessageEl);
-               // 创建一个隐藏的表单并提交
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'https://www.new.oaifree.com';
-            form.target = '_blank'; // 在新窗口打开
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'access_token';
-            input.value = accessToken;
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'access_token';
-            input.value = accessToken;
-                   
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
-            const shareTokenURL = `https://chat.oaifree.com/token`
-            //window.open('https://new.oaifree.com', '_blank');//直接访问oai
+            
+            window.open('https://www.new.oaifree.com', '_blank');//直接访问oai
 
             copyMessageEl.style.display = 'flex';
             setTimeout(() => {
