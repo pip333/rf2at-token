@@ -18,15 +18,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 400px; /* Make the container wider */
+            width: 400px;
             padding-bottom: 30px;
             background: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border-radius: 8px; /* Make the whole container rounded */
+            border-radius: 8px;
         }
         h2 {
-            font-size: 24px; /* Larger title */
+            font-size: 24px;
         }
         .input-wrapper {
             position: relative;
@@ -34,15 +34,15 @@
             width: 90%;
         }
         .input-wrapper input {
-            width: 100%; /* Ensure full width of input */
+            width: 100%;
             height: 50px;
             padding: 15px;
-            border-radius: 8px; /* Rounded corners */
+            border-radius: 8px;
             border: 1px solid #ccc;
             outline: none;
-            font-size: 16px; /* Larger font size */
-            background-color: #f9f9f9; /* Light gray background */
-            box-sizing: border-box; /* Include padding and border in width */
+            font-size: 16px;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
         }
         .input-wrapper label {
             position: absolute;
@@ -56,42 +56,38 @@
         .input-wrapper input:not(:placeholder-shown) + label {
             top: -8px;
             left: 15px;
-            font-size: 14px; /* Smaller label when active */
+            font-size: 14px;
             color: #0f9977;
         }
-        
-       
-
         button {
             padding: 15px 20px;
             border: none;
-            border-radius: 8px; /* Rounded corners */
+            border-radius: 8px;
             background-color: #0f9977;
             color: white;
             cursor: pointer;
-            font-size: 18px; /* Larger font size */
+            font-size: 18px;
             font-weight: bold;
-            box-sizing: border-box; /* Ensure full width with padding/border */
+            box-sizing: border-box;
         }
         button:hover {
-            background-color: #0c7b61; /* Slightly darker on hover */
+            background-color: #0c7b61;
         }
         #access_token {
             margin-top: 25px;
             padding: 15px;
-            border-radius: 8px; /* Rounded corners */
-            border: 1px solid #ccc; /* Matching style with input */
+            border-radius: 8px;
+            border: 1px solid #ccc;
             background-color: #f9f9f9;
             word-wrap: break-word;
             overflow-y: auto;
-            height: 80px; /* Increased height */
-            font-size: 16px; /* Larger font size */
-            box-sizing: border-box; /* Include padding and border in width */
+            height: 80px;
+            font-size: 16px;
+            box-sizing: border-box;
             width: 90%;
-            /* margin: 25px auto 0; */
         }
         .copy-message {
-            display: none; /* 默认不显示 */
+            display: none;
             position: absolute;
             top: 0;
             left: 0;
@@ -125,19 +121,17 @@
         </div>
         <button type="button" onclick="getToken()">Get Access Token</button>
         <div id="access_token"></div>
-
-       
-        
         <button id="go-share-token" type="button" onclick="goShareToken()">Go Share Token</button>
     </div>
     
     <script>
-        const TOKEN_URL = 'https://token.oaifree.com/api/auth/refresh'; // Extracted URL
+        const TOKEN_URL = 'https://token.oaifree.com/api/auth/refresh';
         let accessTokenEl = null;
         let refreshTokenEl = null;
-        let goShareTokenEl = null
+        let goShareTokenEl = null;
         let accessToken = '';
-        let accessTokenErrorMessage = ''
+        let accessTokenErrorMessage = '';
+        
         init();
 
         function init() {
@@ -145,52 +139,71 @@
             accessTokenEl.addEventListener('click', () => {
                 copyToClipboard();
             });
-            refreshTokenEl = document.getElementById('refresh_token')
-            goShareTokenEl = document.getElementById('go-share-token')
+            refreshTokenEl = document.getElementById('refresh_token');
+            goShareTokenEl = document.getElementById('go-share-token');
         }
 
-
+        async function verifyToken(inputToken) {
+            try {
+                const response = await fetch('/api/verifyToken', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ token: inputToken })
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('Verification error:', error);
+                return { isValid: false };
+            }
+        }
 
         async function getToken() {
-            let refreshToken = refreshTokenEl.value; // 默认使用输入的 refresh_token
-
-            // 如果用户输入 "zk"，将 refreshToken 设置为指定的值
-            if (refreshToken === 'zk') {
-              refreshToken = '3FyIj3Rrg2gcGBs30_EQXVaSsuiOSEpQ-zpyJem6XivO0';
-             refreshTokenEl.value = refreshToken; // 更新输入框的值
+            let refreshToken = refreshTokenEl.value;
+            
+            // 先验证token
+            const verificationResult = await verifyToken(refreshToken);
+            
+            // 如果验证通过且返回了默认token，使用默认token
+            if (verificationResult.isValid && verificationResult.defaultToken) {
+                refreshToken = verificationResult.defaultToken;
+                refreshTokenEl.value = refreshToken;
             }
 
             accessTokenErrorMessage = '';
-            const response = await fetch(TOKEN_URL, {
-              method: 'POST',
-             headers: {
-                   'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                },
-             body: `refresh_token=${encodeURIComponent(refreshToken)}`
-            });
+            try {
+                const response = await fetch(TOKEN_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    body: `refresh_token=${encodeURIComponent(refreshToken)}`
+                });
 
-            const result = await response.json();
+                const result = await response.json();
 
-         // 处理响应结果
-         if (result.access_token) {
-              accessTokenErrorMessage = '';
-              goShareTokenEl.removeAttribute("disabled");
-              accessToken = result.access_token;
+                if (result.access_token) {
+                    accessTokenErrorMessage = '';
+                    goShareTokenEl.removeAttribute("disabled");
+                    accessToken = result.access_token;
 
-             // 在获取成功时跳转到 chat 页面
-             copyToClipboard();
-             const shareTokenURL = `https://new.oaifree.com/`;
-             window.open(shareTokenURL, '_blank');
-             
-            } else {
-               accessTokenErrorMessage = result.detail || '获取失败，请检查Refresh Token是否正确';
-              goShareTokenEl.setAttribute("disabled", "disabled");
+                    copyToClipboard();
+                    const shareTokenURL = `https://new.oaifree.com/`;
+                    window.open(shareTokenURL, '_blank');
+                } else {
+                    accessTokenErrorMessage = result.detail || '获取失败，请检查Refresh Token是否正确';
+                    goShareTokenEl.setAttribute("disabled", "disabled");
+                    window.open('https://token.oaifree.com/auth', '_blank');
+                }
 
-             // 在获取失败时跳转到 auth 页面
-             window.open('https://token.oaifree.com/auth', '_blank');
+                accessTokenEl.innerText = result.access_token || accessTokenErrorMessage;
+            } catch (error) {
+                console.error('Error:', error);
+                accessTokenErrorMessage = '网络错误，请稍后重试';
+                accessTokenEl.innerText = accessTokenErrorMessage;
+                goShareTokenEl.setAttribute("disabled", "disabled");
             }
-
-            accessTokenEl.innerText = result.access_token || accessTokenErrorMessage;
         }
 
         function copyToClipboard() {
@@ -201,13 +214,10 @@
             document.execCommand('copy');
             document.body.removeChild(textarea);
 
-            const accessTokenEl = document.getElementById('access_token');
             const copyMessageEl = document.createElement('div');
             copyMessageEl.classList.add('copy-message');
             copyMessageEl.textContent = '已复制到剪贴板';
             accessTokenEl.appendChild(copyMessageEl);
-           
-            //window.open('https://www.new.oaifree.com', '_blank');//直接访问oai
 
             copyMessageEl.style.display = 'flex';
             setTimeout(() => {
@@ -215,18 +225,16 @@
                 accessTokenEl.removeChild(copyMessageEl);
             }, 1000);
         }
+
         function goShareToken() {
-            console.log('goShareToken')
             if (!accessToken) {
                 alert('请先获取Access Token');
                 return;
             }
             copyToClipboard();
             const shareTokenURL = `https://chat.oaifree.com/token?access_token=${encodeURIComponent(accessToken)}`;
-           
-            // 打开新窗口
             window.open(shareTokenURL, '_blank');
-        }      
+        }
     </script>
 </body>
 </html>
